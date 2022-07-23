@@ -1,0 +1,18 @@
+﻿@model Product
+@using Microsoft.AspNetCore.Mvc
+<div class="card">
+    <div class="card-header">
+        Featured
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">
+            <a asp-action="Details" asp-controller="Products" asp-route-id="@Model.Id">@Model.Title</a></h5>
+        <p class="card-text">@Model.Price грн.</p>
+        @*<a asp-action="AddToCart" asp-controller="Cart" asp-route-id="@product.Id">Придбати</a>*@
+        <form asp-action="AddToCart" method="post" asp-controller="Cart">
+            <input type="hidden" name="id" value="@Model.Id" />
+            <input type="hidden" name="returnUrl" value="@(Context.Request.Path.Value+Context.Request.QueryString.Value)" />
+            <button type="submit" class="btn btn-sm btn-success float-right">Придбати</button>
+        </form>
+    </div>
+</div>

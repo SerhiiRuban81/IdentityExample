@@ -1,0 +1,51 @@
+﻿@model CartIndexViewModel
+@{
+    int i = 0;
+}
+<div class="container">
+    <div class="row">
+        <h2>Корзина</h2>
+        <div class="col-3"></div>
+        <div class="col">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>№ п/п</th>
+                        <th>Название</th>
+                        <th>Стоимость</th>
+                        <th>Количество</th>
+                        <th>Сумма</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (CartItem item in Model.Cart.CartItems)
+                    {
+                        <tr>
+                            <td>@(++i)</td>
+                            <td>@item.Product.Title</td>
+                            <td>@item.Product.Price грн.</td>
+                            <td>@item.Quantity</td>
+                            <td>@((item.Product.Price * item.Quantity).ToString("# грн."))</td>
+                            <td>
+                                <form asp-action="RemoveFromCart" method="post">
+                                    <input type="hidden" name="id" value="@item.Product.Id" />
+                                    <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
+                                    <button type="submit" class="btn btn-sm btn-outline-warning">Видалити</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+    <div class="row">
+        <a href="@Model.ReturnUrl" class="btn btn-secondary">Повернутися до покупок</a>
+        <form asp-action="ConfirmOrder" method="post">
+            <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
+            <button type="submit" class="btn btn-sm btn-success">Оформити замовлення</button>
+        </form>
+    </div>
+</div>
